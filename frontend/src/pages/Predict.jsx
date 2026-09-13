@@ -14,17 +14,17 @@ import { usePrediction } from '../hooks/usePrediction'
 // Switching presets costs nothing, no reloading ever happens.
 //
 // Counts verified from model_f1_scores.json:
-//   Broad    F1 >= 0.30  →  370 groups  (default, most coverage)
-//   Balanced F1 >= 0.50  →  306 groups
-//   Strict   F1 >= 0.70  →   96 groups  (highest confidence only)
+//   Broad    F1 >= 0.30  →  371 groups  (default, most coverage)
+//   Balanced F1 >= 0.50  →  304 groups
+//   Strict   F1 >= 0.70  →   99 groups  (highest confidence only)
 // ─────────────────────────────────────────────────────────────────────────────
 const PRESETS = [
   {
     key:        'broad',
     label:      'Broad',
     f1Value:    0.30,
-    groupCount: 370,
-    hint:       '370 model groups (F1 ≥ 0.30). Maximum coverage, best starting point for any new protein. All models loaded, only the lowest-quality 5 excluded.',
+    groupCount: 371,
+    hint:       '371 model groups (F1 ≥ 0.30). Maximum coverage, best starting point for any new protein. All models loaded, only the lowest-quality 5 excluded.',
     color:      'teal',
     isDefault:  true,
   },
@@ -32,16 +32,16 @@ const PRESETS = [
     key:        'balanced',
     label:      'Balanced',
     f1Value:    0.50,
-    groupCount: 306,
-    hint:       '306 model groups (F1 ≥ 0.50). Removes weaker models for cleaner predictions. Good for most research tasks.',
+    groupCount: 304,
+    hint:       '304 model groups (F1 ≥ 0.50). Removes weaker models for cleaner predictions. Good for most research tasks.',
     color:      'cyan',
   },
   {
     key:        'strict',
     label:      'Strict',
     f1Value:    0.70,
-    groupCount: 96,
-    hint:       'Only the top 96 model groups (F1 ≥ 0.70). Highest confidence, narrowest coverage. Best for publication-grade annotation of well-studied protein families.',
+    groupCount: 99,
+    hint:       'Only the top 99 model groups (F1 ≥ 0.70). Highest confidence, narrowest coverage. Best for publication-grade annotation of well-studied protein families.',
     color:      'violet',
   },
 ]
@@ -50,7 +50,7 @@ const PRESETS = [
 // RESULT REFINEMENT (client-side only, nothing is deleted from `results`)
 //
 // The model filter above controls how many MODELS vote. It does not control
-// how many TERMS each model outputs. Even 96 "Strict" models can still emit
+// how many TERMS each model outputs. Even 99 "Strict" models can still emit
 // 200+ combined predictions if each fires 2-3 terms. This second filter
 // narrows the DISPLAYED list without touching the underlying data, so the
 // person can always flip back to "Show all" with one click.
