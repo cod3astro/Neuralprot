@@ -56,11 +56,11 @@ At runtime on Hugging Face Spaces, the backend downloads all model files automat
 1. Push your repository to GitHub.
 2. Import it at [vercel.com](https://vercel.com), setting the root directory to `frontend/`.
 3. Add one environment variable in the Vercel dashboard: `VITE_API_URL = https://your-hf-space-name.hf.space`
-4. Deploy — Vercel builds automatically on every push to `main`.
+4. Deploy, Vercel builds automatically on every push to `main`.
 
 Free on Vercel's Hobby plan for personal projects.
 
-### Backend and Models — Hugging Face Spaces
+### Backend and Models: Hugging Face Spaces
 
 **1. Upload your models to a Hugging Face Dataset repo:**
 
