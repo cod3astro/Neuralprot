@@ -45,7 +45,7 @@ Each prediction carries a GO term ID (linkable to QuickGO/AmiGO), a human-readab
 
 **2. Model Group Routing.** Rather than one massive model, NeuralProt uses **Dynamic Tree Splitting** to group the 38,560+ GO terms into 375 biologically coherent clusters based on annotation co-occurrence (e.g. one group covers kinase-related molecular functions, another covers ion channel activity). Routing is implicit: the feature vector is passed to every loaded group in parallel, and each independently decides whether its terms apply.
 
-**3. Neural Network Voting.** Each group is a multilayer perceptron (MLP) that outputs a probability per GO term in its group. Terms whose probability exceeds the group's tuned threshold are included. Thresholds were tuned per group on a held-out validation set by sweeping 100 candidate values (0.05–0.95) to maximise macro F1.
+**3. Neural Network Voting.** Each group is a multilayer perceptron (MLP) that outputs a probability per GO term in its group. Terms whose probability exceeds the group's tuned threshold are included. Thresholds were tuned per group on a held-out validation set by sweeping 100 candidate values (0.05-0.95) to maximise macro F1.
 
 **4. Hierarchy Safety Gate (optional).** The Gene Ontology is a directed acyclic graph, a protein predicted to do a specific child function (e.g. "protein serine/threonine kinase activity") is biologically required to also do its parent functions ("kinase activity", "transferase activity"). `predict_single()` supports enforcing this via an opt-in `apply_parent_gate` flag: any child term at ≥75% confidence propagates upward to its ancestors, labelled "Hierarchy Tree Rule" with a fixed 1.0000 confidence score. **This flag defaults to off, and neither `/predict/sequence` nor `/predict/fasta` currently enables it** as shipped, only direct neural-network predictions are returned.
 
@@ -70,7 +70,7 @@ Evaluated with CAFA-standard metrics on a held-out test set the model never saw 
 | Groups with deployed F1 ≥ 0.70 / ≥ 0.50 / ≥ 0.30 | 99 / 304 / 371 |
 | **Average per-term Fmax (CAFA-standard)** | **0.76** |
 | Average per-term Fmax, well-supported terms (≥100 test proteins, n=291) | 0.90 |
-| Per-term distribution (of 10,821 labels) | 6,441 strong (≥0.70) · 2,140 moderate (0.50–0.69) · 1,242 weak · 0 unlearnable |
+| Per-term distribution (of 10,821 labels) | 6,441 strong (≥0.70) · 2,140 moderate (0.50-0.69) · 1,242 weak · 0 unlearnable |
 
 > One term (`positive_regulation_of_DNA-templated_transcription`, GO:0045893) reached a perfect 1.0000 Fmax on 480 test proteins, worth a sanity check before citing, since a perfect score at that sample size is unusual and could reflect how that term's group was constructed rather than genuine separability.
 
@@ -176,7 +176,7 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for environment variables and setup.
 
 Every group uses the same `NeuralProtMLP`: 498-neuron input layer, two hidden layers (batch norm, dropout, ReLU), and one sigmoid output neuron per GO term in that group (multi-label classification).
 
-Trained with **nn.BCEWithLogitsLoss(pos_weight=...)** to handle the severe class imbalance in GO annotation data, most terms are positive for only a small fraction of proteins, and pos_weight down-weights easy negatives in favor of the hard, informative cases. Thresholds were tuned per group by sweeping 100 values (0.05–0.95) on a held-out validation set and are stored in each group's metadata.
+Trained with **nn.BCEWithLogitsLoss(pos_weight=...)** to handle the severe class imbalance in GO annotation data, most terms are positive for only a small fraction of proteins, and pos_weight down-weights easy negatives in favor of the hard, informative cases. Thresholds were tuned per group by sweeping 100 values (0.05-0.95) on a held-out validation set and are stored in each group's metadata.
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for the per-group file layout and what to push where.
 
